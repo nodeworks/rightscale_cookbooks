@@ -10,7 +10,7 @@ rightscale_marker
 
 log "  Setting provider specific settings for php application server."
 node[:app][:provider] = "app_php"
-node[:app][:version] = "5.3"
+node[:app][:version] = "5.4"
 log "  Setting php application server version to 5.3."
 
 # Setting generic app attributes
@@ -27,9 +27,10 @@ when "centos", "redhat"
   node[:app][:user] = "apache"
   node[:app][:group] = "apache"
   node[:app][:packages] = [
-    "php53u",
-    "php53u-pear",
-    "php53u-zts"
+    "php54u",
+    "php54u-pear",
+    "php54u-zts",
+    "php54u-xml"
   ]
 end
 
