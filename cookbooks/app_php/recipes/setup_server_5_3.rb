@@ -13,6 +13,15 @@ node[:app][:provider] = "app_php"
 node[:app][:version] = "5.4"
 log "  Setting php application server version to 5.3."
 
+# php.ini template
+template "/etc/php.ini" do
+  source "php.ini.erb"
+  mode 0644
+  owner "root"
+  group "root"
+  cookbook "app_php"
+end
+
 # Setting generic app attributes
 case node[:platform]
 when "ubuntu"
