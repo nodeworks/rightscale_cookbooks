@@ -39,7 +39,8 @@ when "centos", "redhat"
     "php54",
     "php54-pear",
     "php54-zts",
-    "php54-xml"
+    "php54-xml",
+    "php54-gd"
   ]
 end
 
