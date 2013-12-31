@@ -707,7 +707,7 @@ action :install_client_driver do
     package "#{type} mysql integration" do
       package_name value_for_platform(
         ["centos", "redhat"] => {
-          "default" => "php53u-mysql"
+          "default" => "php54-mysql"
         },
         "ubuntu" => {
           "default" => "php5-mysql"
