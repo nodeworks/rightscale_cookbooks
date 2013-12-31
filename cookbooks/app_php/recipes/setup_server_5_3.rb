@@ -36,10 +36,10 @@ when "centos", "redhat"
   node[:app][:user] = "apache"
   node[:app][:group] = "apache"
   node[:app][:packages] = [
-    "php54w",
-    "php54w-pear",
-    "php54w-zts",
-    "php54w-xml"
+    "php54",
+    "php54-pear",
+    "php54-zts",
+    "php54-xml"
   ]
 end
 
