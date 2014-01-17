@@ -1,0 +1,81 @@
+server {
+    listen 80;
+    listen 443 ssl;
+
+    ssl_certificate /etc/nginx/ssl/readycart.com.crt;
+    ssl_certificate_key /etc/nginx/ssl/readycart-wildcard.key;
+
+    fastcgi_param HTTPS $https;
+
+    server_name readycart.com;
+    rewrite ^(.*) $scheme://dev.readycart.com$1 permanent;
+}
+
+server {
+        listen 80;
+        listen 443 ssl;
+
+        ssl_protocols SSLv3 TLSv1;
+#       ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv3:+EXP;
+#       ssl_prefer_server_ciphers on;
+
+        ssl_certificate /etc/nginx/ssl/readycart.com.crt;
+        ssl_certificate_key /etc/nginx/ssl/readycart-wildcard.key;
+
+        fastcgi_param HTTPS $https;
+
+        server_name dev.readycart.com;
+                root   /var/www/readycart;
+                index index.php;
+                include /etc/nginx/security;
+
+        # Logging --
+        access_log  /var/log/nginx/readycart.access.log;
+        error_log  /var/log/nginx/readycart.error.log notice;
+
+location ~ ^/(www-status)$ {
+    include /etc/nginx/fastcgi_params;
+    # fastcgi_pass 127.0.0.1:9000;
+    fastcgi_pass unix:/var/run/php5-fpm/readycart.socket;
+    fastcgi_index index.php;
+}
+
+        # Allow Drupal 7 Image Styles to generate
+        location @rewrite {
+            rewrite ^/(.*)$ /index.php?q=$1;
+        }
+
+        location ~ ^/sites/.*/files/styles/ {
+            try_files $uri @rewrite;
+        }
+
+        # serve static files directly
+        location ~* ^.+\.(?:jpg|jpeg|gif|css|png|js|ico|html|xml|txt|mp4|wmv|mp3|aac|ogv|avi|webm|mov|wav|woff|ttf|svg|otf)$ {
+            access_log        off;
+            expires           max;
+        }
+
+        location ~ \.php$ {
+                try_files $uri =404;
+                fastcgi_pass unix:/var/run/php5-fpm/readycart.socket;
+                # fastcgi_pass 127.0.0.1:9000;
+                fastcgi_index index.php;
+                include /etc/nginx/fastcgi_params;
+        }
+
+        location / {
+            root   /var/www/readycart;
+            index  index.php index.html;
+
+            if (!-f $request_filename) {
+                rewrite  ^(.*)$  /index.php?q=$1  last;
+                break;
+            }
+
+            if (!-d $request_filename) {
+                rewrite  ^(.*)$  /index.php?q=$1  last;
+                break;
+            }
+
+        }
+}
