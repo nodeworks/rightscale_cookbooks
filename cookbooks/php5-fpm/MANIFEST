@@ -1,0 +1,5 @@
+README.rdoc	afd05a88c6da55ac7177992a431e504a
+metadata.json	1970109c9ec24e6ee8ef79f0655b584a
+metadata.rb	478e4ef8830427cdea4a861950225207
+recipes/default.rb	2f6958434c838961e55e83b20e8a1fb0
+templates/default/php5-fpm.erb	e93a36f4a2dc3169dfcd7fe0169e5694

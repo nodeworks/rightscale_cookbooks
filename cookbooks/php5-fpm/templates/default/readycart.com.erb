@@ -1,0 +1,37 @@
+[readycart.com]
+
+listen = /var/run/php5-fpm/readycart.socket
+# listen = 127.0.0.1:9000;
+listen.backlog = 5000
+
+; Unix user/group of processes
+user = www-data
+group = www-data
+
+; Choose how the process manager will control the number of child processes.
+pm = dynamic
+pm.max_children = 150
+pm.start_servers = 35
+pm.min_spare_servers = 20
+pm.max_spare_servers = 35
+pm.max_requests = 1024
+
+# pm.max_children = 25
+# pm.start_servers = 5
+# pm.min_spare_servers = 2
+# pm.max_spare_servers = 5
+# pm.max_requests = 100
+
+request_terminate_timeout = 120s
+
+# pm.status_path = /www-status
+
+; Pass environment variables
+env[HOSTNAME] = $HOSTNAME
+env[PATH] = /usr/local/bin:/usr/bin:/bin
+env[TMP] = /tmp
+env[TMPDIR] = /tmp
+env[TEMP] = /tmp
+
+; host-specific php ini settings here
+; php_admin_value[open_basedir] = /var/www/readycart:/tmp
