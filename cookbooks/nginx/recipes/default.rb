@@ -27,6 +27,22 @@ directory "/etc/nginx/ssl" do
   action :create
 end
 
+cookbook_file "readycart.com.crt" do
+  path "/etc/nginx/ssl"
+  owner "www-data"
+  group "www-data"
+  mode "0755"
+  action :create
+end
+
+cookbook_file "readycart-wildcard.key" do
+  path "/etc/nginx/ssl"
+  owner "www-data"
+  group "www-data"
+  mode "0755"
+  action :create
+end
+
 # default nginx configuration
 template "/etc/nginx/sites-available/default" do
   source "nginx-default.erb"
