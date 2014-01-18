@@ -43,7 +43,7 @@ tuning['c1.medium']['max_spare'] = 10
 
 tuning['c1.xlarge']['max_children'] = 68
 tuning['c1.xlarge']['min_spare'] = 6
-tuning['c1.xlarge']['max_spare'] = 12
+tuning['c1.xlarge']['max_spare'] =
 
 directory "/var/run/php5-fpm" do
   owner "www-data"
