@@ -8,10 +8,10 @@
 
 # @resource app
 
-# Stops apache
+# Stops nginx
 action :stop do
   log "  Running stop sequence"
-  service "apache2" do
+  service "nginx" do
     action :stop
     persist false
   end
@@ -20,7 +20,7 @@ end
 # Starts apache
 action :start do
   log "  Running start sequence"
-  service "apache2" do
+  service "nginx" do
     action :start
     persist false
   end
@@ -29,7 +29,7 @@ end
 # Reloads apache
 action :reload do
   log "  Running reload sequence"
-  service "apache2" do
+  service "nginx" do
     action :reload
     persist false
   end

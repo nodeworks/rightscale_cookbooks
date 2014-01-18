@@ -13,24 +13,13 @@ node[:app][:provider] = "app_php"
 node[:app][:version] = "5.4"
 log "  Setting php application server version to 5.3."
 
-# php.ini template
-template "/etc/php.ini" do
-  source "php.ini.erb"
-  mode 0644
-  owner "root"
-  group "root"
-  cookbook "app_php"
-end
-
 # Setting generic app attributes
 case node[:platform]
 when "ubuntu"
   node[:app][:user] = "www-data"
   node[:app][:group] = "www-data"
   node[:app][:packages] = [
-    "php5",
-    "php-pear",
-    "libapache2-mod-php5"
+
   ]
 when "centos", "redhat"
   node[:app][:user] = "apache"
@@ -43,11 +32,3 @@ when "centos", "redhat"
     "php54-gd"
   ]
 end
-
-# Sets required apache modules.
-node[:app_php][:module_dependencies] = value_for_platform(
-  "ubuntu" => {
-    "default" => ["proxy_http", "php5"]
-  },
-  "default" => ["proxy", "proxy_http"]
-)
