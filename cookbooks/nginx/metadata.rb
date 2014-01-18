@@ -14,6 +14,12 @@ attribute 'nginx/server_name',
   :type => "string",
   :required => "required",
   :recipes => [ "nginx::default" ]
+attribute 'nginx/appservername',
+  :display_name => "Nginx App Server Name",
+  :description => "The app server name",
+  :type => "string",
+  :required => "required",
+  :recipes => [ "nginx::default" ]
 attribute 'nginx/ssl_cert',
   :display_name => 'SSL Certificate',
   :description => 'PEM based SSL certificate data',

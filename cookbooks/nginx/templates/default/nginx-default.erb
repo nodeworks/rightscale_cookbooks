@@ -52,6 +52,8 @@ location ~ ^/(www-status)$ {
         location / {
             root   /var/www/readycart;
             index  index.php index.html;
+            proxy_set_header AppServerName <%= @appservername %>;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 
             if (!-f $request_filename) {
                 rewrite  ^(.*)$  /index.php?q=$1  last;
