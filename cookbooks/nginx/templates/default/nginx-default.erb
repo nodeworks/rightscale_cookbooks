@@ -1,17 +1,4 @@
 server {
-    listen 8000;
-    listen 443 ssl;
-
-    ssl_certificate /etc/nginx/ssl/readycart.com.crt;
-    ssl_certificate_key /etc/nginx/ssl/readycart-wildcard.key;
-
-    fastcgi_param HTTPS $https;
-
-    server_name readycart.com;
-    rewrite ^(.*) $scheme://www.readycart.com$1 permanent;
-}
-
-server {
         listen 8000;
         listen 443 ssl;
 
