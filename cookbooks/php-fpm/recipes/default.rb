@@ -78,7 +78,7 @@ service "php5-fpm" do
   action [ :enable, :start ]
 end
 
-template "/etc/php5/fpm/php5-fpm.conf" do
+template "/etc/php5/fpm/php-fpm.conf" do
   source "php5-fpm.erb"
   variables(
     :max_children => tuning[node.ec2.instance_type]['max_children'],
