@@ -34,7 +34,7 @@ default[:web_apache][:ssl_key] = ""
 # SSL passphrase
 default[:web_apache][:ssl_passphrase] = ""
 # Application name
-default[:web_apache][:application_name] = "myapp"
+default[:web_apache][:application_name] = "readycart"
 # Allow override default value
 default[:web_apache][:allow_override] = "None"
 

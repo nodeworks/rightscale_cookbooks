@@ -139,7 +139,7 @@ attribute "web_apache/application_name",
     " This must be a valid directory name. Do not use symbols in the name." +
     " Example: myapp",
   :required => "optional",
-  :default => "myapp",
+  :default => "readycart",
   :recipes => [
     "web_apache::setup_frontend_ssl_vhost",
     "web_apache::setup_frontend_http_vhost",
