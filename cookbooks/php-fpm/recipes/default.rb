@@ -61,13 +61,6 @@ directory "/var/www/readycart" do
   action :create
 end
 
-# setup a command to add new ppa
-package "python-software-properties"
-execute "add-apt-repository" do
-        command "add-apt-repository ppa:brianmercer/php && apt-get update"
-        action :run
-end
-
 # take care of all the php packages
 package "php5-common"
 package "php5-mysql"
