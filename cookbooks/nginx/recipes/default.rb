@@ -28,7 +28,7 @@ directory "/etc/nginx/ssl" do
 end
 
 cookbook_file "readycart.com.crt" do
-  path "/etc/nginx/ssl"
+  path "/etc/nginx/ssl/readycart.com.crt"
   owner "www-data"
   group "www-data"
   mode "0755"
@@ -36,7 +36,7 @@ cookbook_file "readycart.com.crt" do
 end
 
 cookbook_file "readycart-wildcard.key" do
-  path "/etc/nginx/ssl"
+  path "/etc/nginx/ssl/readycart-wildcard.key"
   owner "www-data"
   group "www-data"
   mode "0755"
