@@ -71,6 +71,7 @@ package "php-pear"
 package "php5-memcache"
 package "php-apc"
 package "php5-fpm"
+package "drush"
 
 # start up php-fpm
 service "php5-fpm" do
@@ -88,7 +89,14 @@ template "/etc/php5/fpm/php-fpm.conf" do
   notifies :restart, resources(:service => "php5-fpm"), :immediately
 end
 
+# php.ini
+template "/etc/php5/fpm/php.ini" do
+  source "php.ini.erb"
+  notifies :restart, resources(:service => "php5-fpm"), :immediately
+end
+
 # pool.d
 template "/etc/php5/fpm/pool.d/readycart.com.conf" do
   source "readycart.com.erb"
+  notifies :restart, resources(:service => "php5-fpm"), :immediately
 end
