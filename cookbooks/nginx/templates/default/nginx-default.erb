@@ -63,7 +63,7 @@ server {
               set $https_status 'off';
             }
 
-            add_header https_status  $https_status;
+            proxy_set_header https_status  $https_status;
 
             fastcgi_param HTTPS $https_status;
         }
