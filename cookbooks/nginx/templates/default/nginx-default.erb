@@ -71,7 +71,7 @@ server {
         location / {
             root   /var/www/readycart;
             index  index.php index.html;
-            proxy_set_header AppServerName <%= node[:nginx][:appservername] %>;
+            proxy_set_header AppServerName "<%= node[:nginx][:appservername] %>";
             proxy_set_header X_Forwarded_Proto $http_x_forwarded_proto;
 
             # needed for HTTPS
