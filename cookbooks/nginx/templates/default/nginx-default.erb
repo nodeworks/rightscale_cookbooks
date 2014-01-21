@@ -3,8 +3,6 @@ server {
         listen 443 ssl;
 
         ssl_protocols SSLv3 TLSv1;
-#       ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv3:+EXP;
-#       ssl_prefer_server_ciphers on;
 
         ssl_certificate /etc/nginx/ssl/readycart.com.crt;
         ssl_certificate_key /etc/nginx/ssl/readycart-wildcard.key;
@@ -12,23 +10,33 @@ server {
         fastcgi_param HTTPS $https;
 
         server_name readycart.com;
-                root   /var/www/readycart;
-                index index.php;
+            root   /var/www/readycart;
+            index index.php;
 
         # Logging --
         access_log  /var/log/nginx/readycart.access.log;
         error_log  /var/log/nginx/readycart.error.log notice;
 
-location ~ ^/(www-status)$ {
-    include /etc/nginx/fastcgi_params;
-    # fastcgi_pass 127.0.0.1:9000;
-    fastcgi_pass unix:/var/run/php5-fpm/readycart.socket;
-    fastcgi_index index.php;
-}
+        location ~ ^/(www-status)$ {
+            include /etc/nginx/fastcgi_params;
+            # fastcgi_pass 127.0.0.1:9000;
+            fastcgi_pass unix:/var/run/php5-fpm/readycart.socket;
+            fastcgi_index index.php;
+        }
 
         # Allow Drupal 7 Image Styles to generate
         location @rewrite {
             rewrite ^/(.*)$ /index.php?q=$1;
+        }
+
+        # Catch image styles for private files.
+        location ~ ^/system/files/styles/ {
+            try_files $uri @rewrite;
+        }
+
+        # Catch image styles for private files.
+        location ~ ^/sites/.*/private/styles/ {
+            try_files $uri @rewrite;
         }
 
         location ~ ^/sites/.*/files/styles/ {
@@ -42,25 +50,28 @@ location ~ ^/(www-status)$ {
         }
 
         location ~ \.php$ {
-                try_files $uri =404;
-                fastcgi_pass unix:/var/run/php5-fpm/readycart.socket;
-                # fastcgi_pass 127.0.0.1:9000;
-                fastcgi_index index.php;
-                include /etc/nginx/fastcgi_params;
-                if ($http_x_forwarded_proto = 'https') {
-                  set $https_status 'on';
-                }
-                if ($http_x_forwarded_proto = 'http') {
-                  set $https_status 'off';
-                }
+            try_files $uri =404;
+            fastcgi_pass unix:/var/run/php5-fpm/readycart.socket;
+            # fastcgi_pass 127.0.0.1:9000;
+            fastcgi_index index.php;
+            include /etc/nginx/fastcgi_params;
 
-                fastcgi_param HTTPS $https_status;
+            if ($http_x_forwarded_proto = 'https') {
+              set $https_status 'on';
+            }
+            if ($http_x_forwarded_proto = 'http') {
+              set $https_status 'off';
+            }
+
+            add_header https_status  $https_status;
+
+            fastcgi_param HTTPS $https_status;
         }
 
         location / {
             root   /var/www/readycart;
             index  index.php index.html;
-            proxy_set_header AppServerName "ReadyCart Webstack";
+            proxy_set_header AppServerName <%= node[:nginx][:appservername] %>;
             proxy_set_header X_Forwarded_Proto $http_x_forwarded_proto;
 
             # needed for HTTPS
@@ -79,6 +90,5 @@ location ~ ^/(www-status)$ {
                 rewrite  ^(.*)$  /index.php?q=$1  last;
                 break;
             }
-
         }
 }
