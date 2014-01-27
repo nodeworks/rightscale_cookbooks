@@ -10,20 +10,32 @@
 
 # Stops nginx
 action :stop do
-  log "  Running stop sequence"
+  log "  Running stop sequence nginx"
   service "nginx" do
     action :stop
     persist false
   end
+
+  log "  Running stop sequence php5-fpm"
+  service "php5-fpm" do
+      action :stop
+      persist false
+    end
 end
 
 # Starts apache
 action :start do
-  log "  Running start sequence"
+  log "  Running start sequence nginx"
   service "nginx" do
     action :start
     persist false
   end
+
+  log "  Running start sequence php5-fpm"
+  service "php5-fpm" do
+      action :start
+      persist false
+    end
 end
 
 # Reloads apache
