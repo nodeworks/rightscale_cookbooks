@@ -35,6 +35,14 @@ action :reload do
   end
 end
 
+action :restart_php_fpm do
+  log "  Running restart sequence"
+    service "php5-fpm" do
+      action :restart
+      persist false
+    end
+end
+
 # Restarts apache
 action :restart do
   # Calls the :stop action.
@@ -147,6 +155,9 @@ action :code_update do
     repository node[:repo][:default][:repository]
     persist false
   end
+
+  sleep 5
+  action_restart_php_fpm
 
 end
 
